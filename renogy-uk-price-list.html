@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Renogy UK Product Price List</title>
+  <style>
+    :root {
+      --primary: #1a5f2a;
+      --primary-light: #e8f5e9;
+      --accent: #f59e0b;
+      --bg: #f5f7f5;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --new: #dc2626;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      padding-bottom: 40px;
+    }
+    .header {
+      background: linear-gradient(135deg, #1a5f2a 0%, #2d8a3e 100%);
+      color: white;
+      padding: 16px 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+    .header h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .header p {
+      font-size: 0.75rem;
+      opacity: 0.85;
+      margin-top: 2px;
+    }
+    .search-wrap {
+      margin-top: 12px;
+      position: relative;
+    }
+    .search-wrap input {
+      width: 100%;
+      padding: 11px 14px 11px 40px;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      background: white;
+      color: var(--text);
+      outline: none;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .search-wrap::before {
+      content: "🔍";
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.95rem;
+      opacity: 0.6;
+    }
+    .filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 12px 16px 8px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .filters::-webkit-scrollbar { display: none; }
+    .filter-btn {
+      flex-shrink: 0;
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: white;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .filter-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+    .stats {
+      padding: 4px 16px 8px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .product-list {
+      padding: 0 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 14px 14px 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+      transition: transform 0.1s;
+    }
+    .card:active { transform: scale(0.99); }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .brand-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .brand-PRO { background: #dbeafe; color: #1d4ed8; }
+    .brand-REGO { background: #fce7f3; color: #be185d; }
+    .brand-CORE { background: #e0e7ff; color: #4338ca; }
+    .brand-PRO\ Mini { background: #dbeafe; color: #1d4ed8; }
+    .new-badge {
+      font-size: 0.6rem;
+      font-weight: 700;
+      background: var(--new);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.03em;
+    }
+    .sku {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      margin-bottom: 4px;
+    }
+    .desc {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .cat {
+      font-size: 0.72rem;
+      color: var(--muted);
+      background: #f3f4f6;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .section-label {
+      font-size: 0.68rem;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-top: 1px dashed var(--border);
+      padding-top: 8px;
+      margin-top: 2px;
+    }
+    .price-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+    .price {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .price.coming {
+      font-size: 0.9rem;
+      color: var(--accent);
+    }
+    .avail-note {
+      font-size: 0.68rem;
+      color: #b45309;
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+    .empty {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .footer {
+      text-align: center;
+      padding: 24px 16px 8px;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Renogy UK Price List</h1>
+    <p>RRP (Tax included) · 2026</p>
+    <div class="search-wrap">
+      <input type="search" id="search" placeholder="Search SKU, product name, category..." autocomplete="off">
+    </div>
+  </div>
+
+  <div class="filters" id="filters"></div>
+  <div class="stats" id="stats"></div>
+  <div class="product-list" id="list"></div>
+  <div class="footer">Prices shown are RRP (Tax included) · For reference only</div>
+
+  <script>
+    const PRODUCTS = [{"sku": "RBT12135LFP-SHBT", "section": "Lithium Batteries", "category": "Underseat", "description": "12.8V,135A,self-heating, underseat size, bluetooth communication", "brand": "PRO", "rrp": "£702.99", "rrp_num": 702.99, "availability": "", "is_new": false}, {"sku": "RBT12200LFP-SHBT", "section": "Lithium Batteries", "category": "Underseat", "description": "12.8V,200A,self-heating, underseat size, bluetooth communication", "brand": "PRO", "rrp": "£1,041.99", "rrp_num": 1041.99, "availability": "", "is_new": false}, {"sku": "RBT12500LFP-SHBT", "section": "Lithium Batteries", "category": "Underseat", "description": "12.8V,500A,self-heating, underseat size, bluetooth＆CanBus communication", "brand": "PRO", "rrp": "£2,159.99", "rrp_num": 2159.99, "availability": "", "is_new": false}, {"sku": "RBT12104LFP-SSBH", "section": "Lithium Batteries", "category": "Solid State", "description": "12.8V,104A, self-heating, bluetooth＆CanBus communication", "brand": "REGO", "rrp": "£833.68", "rrp_num": 833.68, "availability": "", "is_new": false}, {"sku": "RBT12120LFP-SBH", "section": "Lithium Batteries", "category": "Solid State", "description": "12.8V,120A,underseat size,bluetooth＆CanBus communication", "brand": "PRO", "rrp": "£785.99", "rrp_num": 785.99, "availability": "", "is_new": false}, {"sku": "RBT12240LFP-SBH", "section": "Lithium Batteries", "category": "Solid State", "description": "12.8V,240A,self-heating, bluetooth＆CanBus communicatio", "brand": "PRO", "rrp": "£1,447.99", "rrp_num": 1447.99, "availability": "", "is_new": false}, {"sku": "RBT12200LFP-BT", "section": "Lithium Batteries", "category": "Standard", "description": "12.8V,200A,self-heating, bluetooth communication", "brand": "PRO", "rrp": "£910.99", "rrp_num": 910.99, "availability": "", "is_new": false}, {"sku": "RBT12100LFP-BT", "section": "Lithium Batteries", "category": "Standard", "description": "12.8V,100A,self-heating, bluetooth communication", "brand": "PRO", "rrp": "£567.99", "rrp_num": 567.99, "availability": "", "is_new": false}, {"sku": "RBT12100LFP-TM-BT", "section": "Lithium Batteries", "category": "Standard", "description": "12.8V,100A, Trolling Motor Battery, Bluetooth Communication", "brand": "CORE", "rrp": "£249.99", "rrp_num": 249.99, "availability": "", "is_new": false}, {"sku": "RBT12300LFP-M", "section": "Lithium Batteries", "category": "Standard", "description": "Renogy Lithium Battery 12V300Ah Mini", "brand": "CORE", "rrp": "£418.80", "rrp_num": 418.8, "availability": "", "is_new": false}, {"sku": "RBT-L12100-B1-G1-UK", "section": "Lithium Batteries", "category": "Mini", "description": "12V 100Ah LiFePO4 (Pro Mini)", "brand": "PRO Mini", "rrp": "£348.96", "rrp_num": 348.96, "availability": "NEW · Pre-order · UK arrival December 2026 (planned)", "is_new": true}, {"sku": "RBT-L12314-B1-G1-UK", "section": "Lithium Batteries", "category": "Mini", "description": "12V 314Ah LiFePO4 (Pro Mini)", "brand": "PRO Mini", "rrp": "£699.00", "rrp_num": 699.0, "availability": "NEW · Pre-order · UK arrival December 2026 (planned)", "is_new": true}, {"sku": "RBT-L12100U-B2-G1-UK", "section": "Lithium Batteries", "category": "Underseat", "description": "12V 100Ah LiFePO4 (Underseat)", "brand": "PRO", "rrp": "£728.14", "rrp_num": 728.14, "availability": "NEW · Pre-order · UK arrival December 2026 (planned)", "is_new": true}, {"sku": "RBT-L12150U-B2-G1-UK", "section": "Lithium Batteries", "category": "Underseat", "description": "12V 150Ah LiFePO4 (Underseat, DIN L5)", "brand": "PRO", "rrp": "£933.36", "rrp_num": 933.36, "availability": "NEW · Pre-order · UK arrival December 2026 (planned)", "is_new": true}, {"sku": "RBT-L12150U-B1-G1-UK", "section": "Lithium Batteries", "category": "Underseat", "description": "12V 150Ah LiFePO4 (Underseat, Digital Screen)", "brand": "CORE", "rrp": "£589.00", "rrp_num": 589.0, "availability": "NEW · Pre-order · UK arrival December 2026 (planned)", "is_new": true}, {"sku": "RIV1220PU-235", "section": "Inverters & Inverter Chargers", "category": "Battery Inverter", "description": "12V,2KW, 230VAC, , Transfer Switch, bluetooth＆CanBus communication", "brand": "PRO", "rrp": "£588.99", "rrp_num": 588.99, "availability": "", "is_new": false}, {"sku": "R-INVT-PUH1-101235", "section": "Inverters & Inverter Chargers", "category": "Battery Inverter", "description": "12V,1KW, 230VAC, Transfer Switch", "brand": "CORE", "rrp": "£113.99", "rrp_num": 113.99, "availability": "", "is_new": false}, {"sku": "R-INVT-PUH1-201235", "section": "Inverters & Inverter Chargers", "category": "Battery Inverter", "description": "12V,2KW, 230VAC,Transfer Switch", "brand": "CORE", "rrp": "£199.49", "rrp_num": 199.49, "availability": "", "is_new": false}, {"sku": "R-INVT-PUH1-301235", "section": "Inverters & Inverter Chargers", "category": "Battery Inverter", "description": "12V,3KW, 230VAC, Transfer Switch", "brand": "CORE", "rrp": "£258.39", "rrp_num": 258.39, "availability": "", "is_new": false}, {"sku": "RIV1220PCH-23S", "section": "Inverters & Inverter Chargers", "category": "Inverter Charger", "description": "12V, 2KW,  230VAC, 80A ACDC charger, Transfer Switch, bluetooth＆CanBus communication", "brand": "PRO", "rrp": "£649.88", "rrp_num": 649.88, "availability": "", "is_new": false}, {"sku": "RIV1230PCH-23S", "section": "Inverters & Inverter Chargers", "category": "Inverter Charger", "description": "12V, 3KW,  230VAC, 120A ACDC charger, Transfer Switch, bluetooth＆CanBus communication", "brand": "PRO", "rrp": "£916.31", "rrp_num": 916.31, "availability": "", "is_new": false}, {"sku": "RIV1230RCH-23S", "section": "Inverters & Inverter Chargers", "category": "Inverter Charger", "description": "12V, 3KW,  230VAC, 150A ACDC charger, Transfer Switch,bluetooth＆CanBus communication", "brand": "REGO", "rrp": "£1,102.50", "rrp_num": 1102.5, "availability": "", "is_new": false}, {"sku": "RIV1220RCH-23S-G1-UK", "section": "Inverters & Inverter Chargers", "category": "Inverter Charger", "description": "2kW Inverter Charger (RCD, Power Assist)", "brand": "REGO", "rrp": "£959.42", "rrp_num": 959.42, "availability": "NEW · Pre-order · UK arrival 04 Oct 2026", "is_new": true}, {"sku": "RIV1230PU-235-G1-UK", "section": "Inverters & Inverter Chargers", "category": "Inverter", "description": "3kW Inverter (ATS, 16A RCD, Heavy duty loads)", "brand": "PRO", "rrp": "£670.80", "rrp_num": 670.8, "availability": "NEW · Pre-order · UK arrival 13 Oct 2026", "is_new": true}, {"sku": "RSP120DC-ASR", "section": "Solar Panels", "category": "Rigid ShadowFlux", "description": "120W ShadowFlux Rigid Solar panel (Topcon)", "brand": "REGO", "rrp": "£120.99", "rrp_num": 120.99, "availability": "", "is_new": false}, {"sku": "RSP200DC-ASR", "section": "Solar Panels", "category": "Rigid ShadowFlux", "description": "200W ShadowFlux Rigid Solar panel (Topcon)", "brand": "REGO", "rrp": "£194.99", "rrp_num": 194.99, "availability": "", "is_new": false}, {"sku": "RSP100DL-36", "section": "Solar Panels", "category": "Flexible Black", "description": "100 Watt 12 Volt Black Division Lightweight Monocrystalline Solar Panel", "brand": "CORE", "rrp": "£89.99", "rrp_num": 89.99, "availability": "", "is_new": false}, {"sku": "RSP200DB-72", "section": "Solar Panels", "category": "Flexible", "description": "Renogy 200W Flexible Solar Panels", "brand": "CORE", "rrp": "£169.99", "rrp_num": 169.99, "availability": "", "is_new": false}, {"sku": "RPP200SB-SE", "section": "Solar Panels", "category": "Solar Blanket", "description": "200W Solar Blanket，Built with high-efficiency N-type cells (up to\n25%)", "brand": "CORE", "rrp": "£179.99", "rrp_num": 179.99, "availability": "", "is_new": false}, {"sku": "RSP400SB", "section": "Solar Panels", "category": "Solar Blanket", "description": "400W Solar Blanket，Built with high-efficiency N-type cells (up to\n25%)", "brand": "CORE", "rrp": "£292.99", "rrp_num": 292.99, "availability": "", "is_new": false}, {"sku": "RPV-P200EF-B1-G1-UK", "section": "Solar Panels", "category": "Portable", "description": "200W portable solar panel kit", "brand": "CORE", "rrp": "£279.00", "rrp_num": 279.0, "availability": "NEW · Pre-order · UK arrival November 2026", "is_new": true}, {"sku": "RKIT200BD-ASR1-G1-UK", "section": "Solar Panels", "category": "Rigid ShadowFlux", "description": "200W Rigid ShadowFlux Kit with aero support and Cable", "brand": "PRO", "rrp": "£250.80", "rrp_num": 250.8, "availability": "NEW · Pre-order · UK arrival December 2026", "is_new": true}, {"sku": "RKIT120BD-ASR1-G1-UK", "section": "Solar Panels", "category": "Rigid ShadowFlux", "description": "120W Rigid ShadowFlux Kit with aero support and Cable", "brand": "PRO", "rrp": "£190.80", "rrp_num": 190.8, "availability": "NEW · Pre-order · UK arrival December 2026", "is_new": true}, {"sku": "RSP200DB-ASR-B-G1-UK", "section": "Solar Panels", "category": "Flexible ShadowFlux", "description": "200W Flexible ShadowFlux", "brand": "PRO", "rrp": "£210.00", "rrp_num": 210.0, "availability": "NEW · Pre-order · UK arrival 27 Oct 2026", "is_new": true}, {"sku": "RSP100DB-ASR-B-G1-UK", "section": "Solar Panels", "category": "Flexible ShadowFlux", "description": "100W Flexible ShadowFlux", "brand": "PRO", "rrp": "£130.79", "rrp_num": 130.79, "availability": "NEW · Pre-order · UK arrival 27 Oct 2026", "is_new": true}, {"sku": "RCC2430REGO", "section": "Chargers", "category": "MPPT Controller", "description": "12V/24V, 30A, 100V solar inputing,Lithium Battery, parallel connection,bluetooth＆CanBus communication", "brand": "REGO", "rrp": "£213.99", "rrp_num": 213.99, "availability": "", "is_new": false}, {"sku": "RCC30REGO", "section": "Chargers", "category": "MPPT Controller", "description": "12V/24V/36V/48V, 30A, 150V solar inputing,Lithium Battery, parallel connection,bluetooth＆CanBus communication", "brand": "REGO", "rrp": "£266.99", "rrp_num": 266.99, "availability": "", "is_new": false}, {"sku": "RCC60REGO", "section": "Chargers", "category": "MPPT Controller", "description": "12V, 60A, 100V solar inputing,bluetooth＆CanBus communication", "brand": "REGO", "rrp": "£320.99", "rrp_num": 320.99, "availability": "", "is_new": false}, {"sku": "RBC1260DO-12B", "section": "Chargers", "category": "DC-DC Charger", "description": "12V, 60A, 16V alternator inputing,Lithium Battery,  parallel connection,bluetooth＆CanBus communication,Anderson connector, IGN wire", "brand": "REGO", "rrp": "£415.99", "rrp_num": 415.99, "availability": "", "is_new": false}, {"sku": "RBC2115DS-21W", "section": "Chargers", "category": "DC-DC Charger", "description": "12V/24V, 30A, 16V alternator inputing,Lithium Battery, parallel connection,bluetooth＆CanBus communication, IGN wire", "brand": "REGO", "rrp": "£213.99", "rrp_num": 213.99, "availability": "", "is_new": false}, {"sku": "RBC2125DS-21W", "section": "Chargers", "category": "DC-DC with MPPT", "description": "12V/24V, 50A, 50V solar inputing,32V alternator inputing,Lithium Battery, parallel connection,bluetooth＆CanBus communication, IP67, IGN wire", "brand": "PRO", "rrp": "£350.99", "rrp_num": 350.99, "availability": "", "is_new": false}, {"sku": "RACC35A1W", "section": "Chargers", "category": "AC-DC Charger", "description": "12V,35A ACDC charging,Activate Lithium Batteries, bluetooth communication", "brand": "REGO", "rrp": "£252.99", "rrp_num": 252.99, "availability": "", "is_new": false}, {"sku": "RBC2160DS-21B-G1-UK", "section": "Chargers", "category": "DC-DC with MPPT", "description": "12/24V 60A DC-DC + MPPT (IP67, 900W)", "brand": "PRO", "rrp": "£331.36", "rrp_num": 331.36, "availability": "NEW · Pre-order · UK arrival late  Dec 2026 (planned)", "is_new": true}, {"sku": "RBC2150DS-21B-G1-UK", "section": "Chargers", "category": "DC-DC with MPPT", "description": "12/24V 50A DC-DC + MPPT (IP67, 750W)", "brand": "PRO", "rrp": "£298.80", "rrp_num": 298.8, "availability": "NEW · Pre-order · UK arrival late Dec 2026 (planned)", "is_new": true}, {"sku": "RCC-M10060-B2-G1-UK", "section": "Chargers", "category": "MPPT Controller", "description": "12/24/36/48V 60A MPPT (Rover 2 Pro)", "brand": "PRO", "rrp": "£231.60", "rrp_num": 231.6, "availability": "NEW · Pre-order · UK arrival TBC", "is_new": true}, {"sku": "RCC-M10050-B2-G1-UK", "section": "Chargers", "category": "MPPT Controller", "description": "12/24V 50A MPPT (Rover 2 Pro)", "brand": "PRO", "rrp": "£156.00", "rrp_num": 156.0, "availability": "NEW · Pre-order · UK arrival December 2026", "is_new": true}, {"sku": "RCC-M10040-B2-G1-UK", "section": "Chargers", "category": "MPPT Controller", "description": "12/24V 40A MPPT (Rover 2 Pro)", "brand": "PRO", "rrp": "£138.00", "rrp_num": 138.0, "availability": "NEW · Pre-order · UK arrival December 2026", "is_new": true}, {"sku": "RCC-M10030-B2-G1-UK", "section": "Chargers", "category": "MPPT Controller", "description": "12/24V 30A MPPT (Rover 2 Pro)", "brand": "PRO", "rrp": "£112.80", "rrp_num": 112.8, "availability": "NEW · Pre-order · UK arrival November 2026 (planned)", "is_new": true}, {"sku": "RCC-M10020-B2-G1-UK", "section": "Chargers", "category": "MPPT Controller", "description": "12/24V 20A MPPT (Rover 2 Pro)", "brand": "PRO", "rrp": "£86.40", "rrp_num": 86.4, "availability": "NEW · Pre-order · UK arrival 22 Oct 2026", "is_new": true}, {"sku": "RDC-1230P-C2-G1-UK", "section": "Chargers", "category": "DC-DC Charger", "description": "12V 30A DC-DC Charger (IGN)", "brand": "PRO", "rrp": "Coming Soon", "rrp_num": null, "availability": "NEW · Coming soon - Q1 2027", "is_new": true}, {"sku": "RDC-1250P-C2-G1-UK", "section": "Chargers", "category": "DC-DC Charger", "description": "12V 50A DC-DC Charger (IGN)", "brand": "PRO", "rrp": "Coming Soon", "rrp_num": null, "availability": "NEW · Coming soon - Q1 2027", "is_new": true}, {"sku": "RSHGWSN-W02W", "section": "Smart Power Management EIoT", "category": "Renogy One", "description": "Renogy ONE Core Energy Monitor and Control", "brand": "CORE", "rrp": "£127.99", "rrp_num": 127.99, "availability": "", "is_new": false}, {"sku": "RSHSN-W02W7", "section": "Smart Power Management EIoT", "category": "Vision", "description": "Renogy ONE Vision 7inch Smart Touch Display Screen", "brand": "REGO", "rrp": "£559.99", "rrp_num": 559.99, "availability": "", "is_new": false}, {"sku": "RSHCP-C02W01", "section": "Smart Power Management EIoT", "category": "Control Panel", "description": "Control Panel CP01", "brand": "REGO", "rrp": "£89.99", "rrp_num": 89.99, "availability": "", "is_new": false}, {"sku": "RSHCB-C02P", "section": "Smart Power Management EIoT", "category": "Distribution Box", "description": "Smart Distribution Box PMS1280", "brand": "REGO", "rrp": "£499.99", "rrp_num": 499.99, "availability": "", "is_new": false}, {"sku": "RTS-RNG-GB", "section": "Smart Power Management EIoT", "category": "Total Solution", "description": "Total Solutio\nOne Core+ One Vision+Control Panel+Distribution box+shunt+cables", "brand": "REGO", "rrp": "£1,399.99", "rrp_num": 1399.99, "availability": "", "is_new": false}, {"sku": "RPM1260DD-G1-UK", "section": "Smart Power Management EIoT", "category": "Power Management", "description": "12V 60A 4-in-1 Power Management (900W)", "brand": "PRO", "rrp": "£964.07", "rrp_num": 964.07, "availability": "NEW · Pre-order · UK arrival January 2027 (planned)", "is_new": true}, {"sku": "RSHCB-B02P-G1-UK", "section": "Smart Power Management EIoT", "category": "Distribution Box", "description": "60A Smart Distribution Box (8 Outputs)", "brand": "PRO", "rrp": "£243.67", "rrp_num": 243.67, "availability": "NEW · Limited stock · next UK arrival 06 Nov 2026", "is_new": true}, {"sku": "RSHST-B02P300", "section": "Accessories", "category": "Accessories", "description": "Battery Shunt 300 with Bluetooth", "brand": "CORE", "rrp": "£71.99", "rrp_num": 71.99, "availability": "", "is_new": false}, {"sku": "RNG-AK-20FT-10", "section": "Accessories", "category": "Accessories", "description": "Renogy MC4 Solar Adaptor Cable - 20 Ft 10 AWG", "brand": "CORE", "rrp": "£32.99", "rrp_num": 32.99, "availability": "", "is_new": false}, {"sku": "RNG-AK-30FT-10", "section": "Accessories", "category": "Accessories", "description": "Renogy MC4 Solar Adaptor Cable - 30 Ft 10 AWG", "brand": "CORE", "rrp": "£42.99", "rrp_num": 42.99, "availability": "", "is_new": false}, {"sku": "REC15FT12PR", "section": "Accessories", "category": "Accessories", "description": "4.5m solar cable kit", "brand": "CORE", "rrp": "£20.99", "rrp_num": 20.99, "availability": "", "is_new": false}, {"sku": "RNG-MTS-ZB", "section": "Accessories", "category": "Accessories", "description": "Set 4 Rigid Solar Panel Installation Brackets For Rigid Panel", "brand": "CORE", "rrp": "£9.99", "rrp_num": 9.99, "availability": "", "is_new": false}, {"sku": "RNG-MTS-CE", "section": "Accessories", "category": "Accessories", "description": "Solar Panel Waterproof Glands", "brand": "CORE", "rrp": "£5.99", "rrp_num": 5.99, "availability": "", "is_new": false}, {"sku": "RBM500", "section": "Accessories", "category": "Accessories", "description": "500A Battery Monitor", "brand": "CORE", "rrp": "£53.99", "rrp_num": 53.99, "availability": "", "is_new": false}, {"sku": "RCM-BT2", "section": "Accessories", "category": "Accessories", "description": "Renogy BT-2 Bluetooth Module", "brand": "CORE", "rrp": "£35.99", "rrp_num": 35.99, "availability": "", "is_new": false}];
+
+    const sections = [...new Set(PRODUCTS.map(p => p.section))];
+    let activeSection = 'All';
+    let query = '';
+
+    const filtersEl = document.getElementById('filters');
+    const listEl = document.getElementById('list');
+    const statsEl = document.getElementById('stats');
+    const searchEl = document.getElementById('search');
+
+    // Build filter buttons
+    const allBtn = document.createElement('button');
+    allBtn.className = 'filter-btn active';
+    allBtn.textContent = 'All';
+    allBtn.onclick = () => setSection('All');
+    filtersEl.appendChild(allBtn);
+
+    sections.forEach(s => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-btn';
+      btn.textContent = s.replace('Inverters & Inverter Chargers', 'Inverters')
+                         .replace('Smart Power Management EIoT', 'Smart Power')
+                         .replace('Lithium Batteries', 'Batteries');
+      btn.dataset.section = s;
+      btn.onclick = () => setSection(s);
+      filtersEl.appendChild(btn);
+    });
+
+    function setSection(s) {
+      activeSection = s;
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.toggle('active', (s === 'All' && b.textContent === 'All') || b.dataset.section === s);
+      });
+      render();
+    }
+
+    function brandClass(brand) {
+      if (!brand) return '';
+      if (brand.includes('PRO')) return 'brand-PRO';
+      if (brand === 'REGO') return 'brand-REGO';
+      if (brand === 'CORE') return 'brand-CORE';
+      return 'brand-PRO';
+    }
+
+    function render() {
+      const q = query.toLowerCase().trim();
+      let filtered = PRODUCTS.filter(p => {
+        if (activeSection !== 'All' && p.section !== activeSection) return false;
+        if (!q) return true;
+        const hay = [p.sku, p.description, p.category, p.brand, p.section, p.availability].join(' ').toLowerCase();
+        return hay.includes(q);
+      });
+
+      statsEl.textContent = filtered.length + ' product' + (filtered.length !== 1 ? 's' : '');
+
+      if (filtered.length === 0) {
+        listEl.innerHTML = '<div class="empty">No products found.<br>Try a different keyword.</div>';
+        return;
+      }
+
+      listEl.innerHTML = filtered.map(p => `
+        <div class="card">
+          <div class="card-top">
+            <span class="brand-tag ${brandClass(p.brand)}">${p.brand || '—'}</span>
+            ${p.is_new ? '<span class="new-badge">NEW</span>' : ''}
+          </div>
+          <div class="sku">${p.sku}</div>
+          <div class="desc">${p.description}</div>
+          <div class="meta">
+            <span class="section-label">${p.section}</span>
+            ${p.category ? `<span class="cat">${p.category}</span>` : ''}
+          </div>
+          <div class="price-row">
+            <span class="price-label">RRP (inc. VAT)</span>
+            <span class="price ${p.rrp_num === null ? 'coming' : ''}">${p.rrp}</span>
+          </div>
+          ${p.availability ? `<div class="avail-note">${p.availability}</div>` : ''}
+        </div>
+      `).join('');
+    }
+
+    searchEl.addEventListener('input', e => {
+      query = e.target.value;
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
