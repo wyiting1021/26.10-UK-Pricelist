@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Leave Your Details · Renogy UK</title>
+  <style>
+    :root {
+      --primary: #1a5f2a;
+      --primary-dark: #144a21;
+      --bg: #f5f7f5;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --error: #dc2626;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      min-height: 100vh;
+    }
+    .header {
+      background: linear-gradient(135deg, #1a5f2a 0%, #2d8a3e 100%);
+      color: white;
+      padding: 16px;
+      text-align: center;
+    }
+    .header a {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.8rem;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    .header h1 {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .header p {
+      font-size: 0.8rem;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+    .form-wrap {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 20px 18px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+    }
+    .field {
+      margin-bottom: 16px;
+    }
+    .field label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .field label .req {
+      color: var(--error);
+    }
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      background: #fafafa;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+      -webkit-appearance: none;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--primary);
+      background: white;
+    }
+    .field textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+    .field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236b7280' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+    .hint {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .submit-btn:active {
+      background: var(--primary-dark);
+    }
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .success {
+      text-align: center;
+      padding: 40px 20px;
+      display: none;
+    }
+    .success.show {
+      display: block;
+    }
+    .success-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+    .success h2 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+    .success p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .back-link {
+      display: inline-block;
+      padding: 12px 24px;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .form-card.hide {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="index.html">← Back to Price List</a>
+    <h1>Leave Your Details</h1>
+    <p>We'll get back to you shortly</p>
+  </div>
+
+  <div class="form-wrap">
+    <div class="card form-card" id="formCard">
+      <form name="exhibition-leads" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="leadsForm">
+        <input type="hidden" name="form-name" value="exhibition-leads">
+        <p style="display:none">
+          <label>Don't fill this out: <input name="bot-field"></label>
+        </p>
+
+        <div class="field">
+          <label>Your Name <span class="req">*</span></label>
+          <input type="text" name="name" required placeholder="Full name" autocomplete="name">
+        </div>
+
+        <div class="field">
+          <label>Company <span class="req">*</span></label>
+          <input type="text" name="company" required placeholder="Company name" autocomplete="organization">
+        </div>
+
+        <div class="field">
+          <label>Phone / WhatsApp <span class="req">*</span></label>
+          <input type="tel" name="phone" required placeholder="+44 or mobile number" autocomplete="tel">
+        </div>
+
+        <div class="field">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="optional" autocomplete="email">
+        </div>
+
+        <div class="field">
+          <label>Job Title / Role</label>
+          <input type="text" name="job_title" placeholder="e.g. Purchasing Manager">
+        </div>
+
+        <div class="field">
+          <label>Interested in</label>
+          <select name="interest">
+            <option value="">— Select —</option>
+            <option value="Lithium Batteries">Lithium Batteries</option>
+            <option value="Inverters & Inverter Chargers">Inverters & Inverter Chargers</option>
+            <option value="Solar Panels">Solar Panels</option>
+            <option value="Chargers">Chargers</option>
+            <option value="Smart Power Management">Smart Power Management</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Full system / Multiple">Full system / Multiple products</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Purchase timeline</label>
+          <select name="timeline">
+            <option value="">— Select —</option>
+            <option value="Urgent / This month">Urgent / This month</option>
+            <option value="Within 3 months">Within 3 months</option>
+            <option value="Within 6 months">Within 6 months</option>
+            <option value="Just exploring">Just exploring</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Notes / Products of interest</label>
+          <textarea name="notes" placeholder="SKU, quantity, or any questions..."></textarea>
+          <div class="hint">You can paste SKUs from the price list</div>
+        </div>
+
+        <div class="field">
+          <label>How did you find us?</label>
+          <select name="source">
+            <option value="Exhibition QR code">Exhibition QR code</option>
+            <option value="Exhibition booth visit">Exhibition booth visit</option>
+            <option value="Referral">Referral</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Submit</button>
+      </form>
+    </div>
+
+    <div class="success" id="successMsg">
+      <div class="success-icon">✅</div>
+      <h2>Thank you!</h2>
+      <p>We've received your details.<br>Our team will contact you soon.</p>
+      <a href="index.html" class="back-link">Back to Price List</a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('leadsForm');
+    const formCard = document.getElementById('formCard');
+    const successMsg = document.getElementById('successMsg');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      const formData = new FormData(form);
+
+      try {
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData).toString()
+        });
+
+        if (res.ok) {
+          formCard.classList.add('hide');
+          successMsg.classList.add('show');
+        } else {
+          alert('Submission failed. Please try again or contact us directly.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit';
+        }
+      } catch (err) {
+        formCard.classList.add('hide');
+        successMsg.classList.add('show');
+      }
+    });
+  </script>
+</body>
+</html>
